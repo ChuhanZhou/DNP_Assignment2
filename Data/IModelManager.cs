@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using DNP_Assignment2.Models;
+﻿using Assignment2.Models.Unit;
+using DNP_Assignment2.Data;
 
-namespace DNP_Assignment2.Data
+namespace Assignment2.Data
 {
     public interface IModelManager
     {
@@ -18,7 +18,7 @@ namespace DNP_Assignment2.Data
         AdultList GetAllAdult();
         string AddChild(Child newChild);
         ChildList GetAllChild();
-        string UpdatePerson(Person newPerson);
-        void RemovePerson(Person person);
+        string UpdatePerson(Assignment2.Models.Unit.Person newPerson);
+        void RemovePerson(Assignment2.Models.Unit.Person person);
     }
 }

@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using DNP_Assignment2.Models;
+using Assignment2.Models.Unit;
 
-
-namespace FileData {
-public class FileContext {
+namespace DNP1.DNP_Assignment2.Persistence 
+{
+    public class FileContext {
     public IList<OldFamily> Families { get; private set; }
     public IList<Adult> Adults { get; private set; }
 

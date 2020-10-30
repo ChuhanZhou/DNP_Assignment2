@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Text.Json;
+using Assignment2.Models.Unit;
 using DNP_Assignment2.Data;
-using DNP_Assignment2.Models;
 
-namespace Data
+namespace Assignment2.Data
 {
     public class ModelManager : IModelManager
     {
@@ -14,10 +14,10 @@ namespace Data
         {
             modelPackage = new ModelPackage();
             dataFileName = "FileData.json";
-            readData();
+            ReadData();
         }
 
-        private void readData()
+        private void ReadData()
         {
             if (!File.Exists(dataFileName))
             {
@@ -132,7 +132,7 @@ namespace Data
             return modelPackage.ChildList.GetAllWithChildList();
         }
 
-        public string UpdatePerson(Person newPerson)
+        public string UpdatePerson(Assignment2.Models.Unit.Person newPerson)
         {
             string result = null;
             if (modelPackage.AdultList.GetAdultById(newPerson.Id)!=null)
@@ -161,7 +161,7 @@ namespace Data
             return result;
         }
 
-        public void RemovePerson(Person person)
+        public void RemovePerson(Assignment2.Models.Unit.Person person)
         {
             modelPackage.AdultList.RemoveAdult(person);
             modelPackage.ChildList.RemoveChild(person);
