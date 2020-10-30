@@ -1,4 +1,4 @@
-﻿namespace Assignment2.Data
+﻿namespace DNP_Assignment2.Data
 {
     public class ModelPackage
     {

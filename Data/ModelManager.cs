@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
-using Assignment2.Models;
-using FileData;
-using Models;
+using Assignment2.Data;
+using DNP_Assignment2.Data;
+using DNP_Assignment2.Models;
 
-namespace Assignment2.Data
+
+namespace Data
 {
     public class ModelManager : IModelManager
     {

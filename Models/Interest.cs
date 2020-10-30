@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Models {
+namespace DNP_Assignment2.Models {
 public class Interest {
     public static readonly List<string> ValidInterest = new[]
     {

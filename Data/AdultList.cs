@@ -2,7 +2,7 @@
 using System.Linq;
 using Models;
 
-namespace Assignment2.Data
+namespace DNP_Assignment2.Data
 {
     public class AdultList
     {

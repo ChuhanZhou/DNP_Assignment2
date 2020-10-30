@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Models;
+using DNP_Assignment2.Models;
 
-namespace Assignment2.Data
+namespace DNP_Assignment2.Data
 {
     public class PersonList
     {

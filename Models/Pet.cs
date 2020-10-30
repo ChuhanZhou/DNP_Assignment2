@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Models {
+namespace DNP_Assignment2.Models {
 public class Pet {
     public static readonly List<string> ValidSpecies = new[]
     {

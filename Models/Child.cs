@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Models {
+namespace DNP_Assignment2.Models {
 public class Child : Person {
     
     public List<Interest> ChildInterests { get; set; }

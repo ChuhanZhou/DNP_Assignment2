@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Models;
+using Assignment2.Data;
+using DNP_Assignment2.Models;
 
-namespace Assignment2.Data
+namespace DNP_Assignment2.Data
 {
     public interface IModelManager
     {

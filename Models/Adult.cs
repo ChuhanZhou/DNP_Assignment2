@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json;
 
-namespace Models {
+namespace DNP_Assignment2.Models {
 public class Adult : Person {
     public static readonly List<string> ValidJob = new[]
     {

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Assignment2.Data;
 using Models;
 
-namespace Assignment2.Models
+namespace DNP_Assignment2.Models
 {
     public class OldFamily
     {

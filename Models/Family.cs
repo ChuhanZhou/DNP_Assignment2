@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Assignment2.Data;
 
 
-namespace Models {
+namespace DNP_Assignment2.Models {
 public class Family {
     
     //public int Id { get; set; }

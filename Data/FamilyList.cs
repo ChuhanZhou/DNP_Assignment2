@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using FileData;
-using Models;
+﻿using System.Collections.Generic;
+using DNP_Assignment2.Models;
 
-namespace Assignment2.Data
+namespace DNP_Assignment2.Data
 {
     public class FamilyList
     {

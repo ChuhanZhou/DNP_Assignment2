@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Models;
+using DNP_Assignment2.Models;
 
-namespace Assignment2.Data
+namespace DNP_Assignment2.Data
 {
     public class UserList
     {
