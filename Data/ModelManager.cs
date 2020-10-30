@@ -132,7 +132,7 @@ namespace Assignment2.Data
             return modelPackage.ChildList.GetAllWithChildList();
         }
 
-        public string UpdatePerson(Assignment2.Models.Unit.Person newPerson)
+        public string UpdatePerson(Person newPerson)
         {
             string result = null;
             if (modelPackage.AdultList.GetAdultById(newPerson.Id)!=null)
@@ -161,7 +161,7 @@ namespace Assignment2.Data
             return result;
         }
 
-        public void RemovePerson(Assignment2.Models.Unit.Person person)
+        public void RemovePerson(Person person)
         {
             modelPackage.AdultList.RemoveAdult(person);
             modelPackage.ChildList.RemoveChild(person);

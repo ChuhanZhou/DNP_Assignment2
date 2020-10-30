@@ -18,7 +18,7 @@ namespace Assignment2.Data
         AdultList GetAllAdult();
         string AddChild(Child newChild);
         ChildList GetAllChild();
-        string UpdatePerson(Assignment2.Models.Unit.Person newPerson);
-        void RemovePerson(Assignment2.Models.Unit.Person person);
+        string UpdatePerson(Person newPerson);
+        void RemovePerson(Person person);
     }
 }
