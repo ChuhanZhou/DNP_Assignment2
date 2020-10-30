@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\Assignment2\\Assignment2.csproj": {}
+    "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\Assignment2.csproj": {}
   },
   "projects": {
-    "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\Assignment2\\Assignment2.csproj": {
+    "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\Assignment2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\Assignment2\\Assignment2.csproj",
+        "projectUniqueName": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\Assignment2.csproj",
         "projectName": "Assignment2",
-        "projectPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\Assignment2\\Assignment2.csproj",
+        "projectPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\Assignment2.csproj",
         "packagesPath": "C:\\Users\\Think\\.nuget\\packages\\",
-        "outputPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\Assignment2\\obj\\",
+        "outputPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Think\\AppData\\Roaming\\NuGet\\NuGet.Config"
