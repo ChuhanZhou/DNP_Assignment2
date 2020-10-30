@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Models;
+using DNP_Assignment2.Models;
 
 namespace DNP_Assignment2.Data
 {

@@ -1,14 +1,11 @@
-using Assignment2.Data;
 using Assignment2.Shared;
+using Data;
+using DNP_Assignment2.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Models;
-
 
 namespace Assignment2
 {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Assignment2.Data;
 using DNP_Assignment2.Models;
 
 namespace DNP_Assignment2.Data
