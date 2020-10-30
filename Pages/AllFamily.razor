@@ -1,0 +1,315 @@
+﻿@page "/AllFamily"
+@using Models
+@using global::Assignment2.Data
+@using global::Models
+
+@inject IModelManager ModelManager
+@inject NavigationManager NavigationManager
+
+<h3>Family List</h3>
+<div style="float: left;width: 100%;height: auto">
+    <div style="float: left">
+        <p style="float: left;position: relative;top: 8px">
+            Key word:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="searchKeyWord" @onclick="ChangeKeyWord">
+            @foreach (var keyWord in KeyWordList)
+            {
+                <option>@keyWord</option>
+            }
+        </select>
+    </div>
+    @switch (searchKeyWord)
+    {
+        case "All":
+            break;
+        case "Address":
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    Street Name:<input type="text" style="width:150px" @bind="@searchInfo1"/>
+                </p>
+            </div>
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    House Number:<input type="number" min="1" style="width:150px" @bind="@searchInfo2"/>
+                </p>
+            </div>
+            break;
+        case "Person Id":
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    : <input type="number" min="0" style="width:150px" @bind="@searchInfo1"/>
+                </p>
+            </div>
+            break;
+        case "Number Of Person":
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 6px">
+                    Type:
+                </p>
+                <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@searchInfo1" @onclick="ChangeSearchInfo1">
+                    <option>All</option>
+                    <option>Adult</option>
+                    <option>Child</option>
+                </select>
+            </div>
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    From:<input type="number" min="0" style="width:150px" @bind="@searchInfo2"/>
+                </p>
+            </div>
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    to:<input type="number" min="0" style="width:150px" @bind="@searchInfo3"/>
+                </p>
+            </div>
+            break;
+    }
+    @if (searchKeyWord != "All")
+    {
+        <div style="float: left">
+            <button class="btn-primary" style="float: left;position: relative;width:auto;left: 10px;height: 32px;top: 4px;border-radius: 5px" @onclick="SearchByKeyWord">Search</button> 
+        </div>
+    }
+</div>
+<div style="float: left;width: 100%;height: auto">
+    <p style="color: red">
+        @error
+    </p>
+</div>
+<div>
+    @if (allFamily == null)
+    {
+        <p>       
+            <em>Loading...</em>
+        </p>
+    }
+    else if (allFamily.GetCount()==0)
+    {
+        <p>       
+            <em>Don't have any family.</em>
+        </p>
+    }
+    else 
+    {
+        <table class="table">        
+            <thead>
+            <tr>
+                <th>Street Name</th>
+                <th>House Number</th>
+                <th>Number of Adults</th>
+                <th>Number of Children</th>
+                <th>Number of Pets</th>
+                <th>Manage</th>
+                <th>Delete</th>
+            </tr>
+            </thead>        
+            <tbody>
+            @foreach (var family in allFamily.families) {           
+                <tr>               
+                    <td>@family.StreetName</td>               
+                    <td>@family.HouseNumber</td>
+                    <td>@family.Adults.adults.Count</td>
+                    <td>@family.Children.childs.Count</td>
+                    <td>@family.Pets.Count</td>
+                    <td>
+                        <button @onclick="@(()=>ManageOldFamily(family))">
+                            <i class="oi oi-spreadsheet" style="color: black"/>
+                        </button>
+                    </td>
+                    <td>
+                        <button @onclick="@(()=>RemoveFamily(family))">
+                            <i class="oi oi-delete" style="color: red"/>
+                        </button>
+                    </td>
+                </tr>        
+            }        
+            </tbody>
+        </table>
+    }
+</div>
+
+
+@code {
+    private static readonly List<string> KeyWordList = new[]
+    {
+        "All","Address","Person Id","Number Of Person"
+    }.ToList();
+    private FamilyList allFamily;
+    private string error;
+    private string searchKeyWord;
+    private string searchInfo1;
+    private string searchInfo2;
+    private string searchInfo3;
+    private string historyKeyWord;
+    private string historySearchInfo1;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.IsLogin())
+        {
+            InitAllFamily();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    private void InitAllFamily()
+    {
+        allFamily = ModelManager.GetAllFamily();
+    }
+    
+    private void ChangeKeyWord()
+    {
+        if (historyKeyWord!=searchKeyWord)
+        {
+            error = null;
+            switch (searchKeyWord)
+            {
+                case "All":
+                    break;
+                case "Address":
+                    searchInfo1 = null;
+                    searchInfo2 = "1";
+                    searchInfo3 = null;
+                    break;
+                case "Person Id":
+                    searchInfo1 = "0";
+                    searchInfo2 = null;
+                    searchInfo3 = null;
+                    break;
+                case "Number Of Person":
+                    searchInfo1 = "All";
+                    searchInfo2 = "0";
+                    searchInfo3 = "0";
+                    break;
+            }
+            SearchByKeyWord();
+        }
+        historyKeyWord = searchKeyWord;
+    }
+
+    private void ChangeSearchInfo1()
+    {
+        if (historySearchInfo1!=searchInfo1)
+        {
+            error = null;
+            CheckSearchInfo("Number Of Person",0);
+            SearchByKeyWord();
+        }
+        historySearchInfo1 = searchInfo1;
+    }
+    
+    private void SearchByKeyWord()
+    {
+        error = null;
+        InitAllFamily();
+        switch (searchKeyWord)
+        {
+            case "All":
+                break;
+            case "Address":
+                if (!string.IsNullOrEmpty(searchInfo1))
+                {
+                    allFamily = allFamily.GetFamilyListByStreetName(searchInfo1);
+                }
+                if (!string.IsNullOrEmpty(searchInfo2))
+                {
+                    allFamily = allFamily.GetFamilyListByHouseNumber(int.Parse(searchInfo2));
+                }
+                break;
+            case "Person Id":
+                if (!string.IsNullOrEmpty(searchInfo1))
+                {
+                    if (ModelManager.GetAllAdult().GetAdultById(int.Parse(searchInfo1))!=null)
+                    {
+                        allFamily = allFamily.GetFamilyListByPerson(ModelManager.GetAllAdult().GetAdultById(int.Parse(searchInfo1)));
+                    }
+                    else if(ModelManager.GetAllChild().GetChildById(int.Parse(searchInfo1))!=null)
+                    {
+                        allFamily = allFamily.GetFamilyListByPerson(ModelManager.GetAllChild().GetChildById(int.Parse(searchInfo1)));
+                    }
+                    else
+                    {
+                        allFamily = new FamilyList();
+                    }
+                }
+                break;
+            case "Number Of Person":
+                CheckSearchInfo(searchKeyWord,0);
+                switch (searchInfo1)
+                {
+                    case "All":
+                        foreach (var family in allFamily.GetAllWithList())
+                        {
+                            if (!(family.Adults.GetCount()+family.Children.GetCount()>=int.Parse(searchInfo2)&&family.Adults.GetCount()+family.Children.GetCount()<=int.Parse(searchInfo3)))
+                            {
+                                allFamily.families.Remove(family);
+                            }
+                        }
+                        break;
+                    case "Adult":
+                        foreach (var family in allFamily.GetAllWithList())
+                        {
+                            if (!(family.Adults.GetCount()>=int.Parse(searchInfo2)&&family.Adults.GetCount()<=int.Parse(searchInfo3)))
+                            {
+                                allFamily.families.Remove(family);
+                            }
+                        }
+                        break;
+                    case "Child":
+                        foreach (var family in allFamily.GetAllWithList())
+                        {
+                            if (!(family.Children.GetCount()>=int.Parse(searchInfo2)&&family.Children.GetCount()<=int.Parse(searchInfo3)))
+                            {
+                                allFamily.families.Remove(family);
+                            }
+                        }
+                        break;
+                }
+                break;
+        }
+    }
+    
+    private void CheckSearchInfo(string keyword,int min)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(searchInfo2))
+            {
+                searchInfo2 = "" + min;
+            }
+            else if(int.Parse(searchInfo2)<min)
+            {
+                searchInfo2 = "" + min;
+            }
+            if (string.IsNullOrEmpty(searchInfo3))
+            {
+                searchInfo2 = "" + int.Parse(searchInfo2);
+            }
+            if (int.Parse(searchInfo3)<int.Parse(searchInfo2))
+            {
+                searchInfo3 = "" + int.Parse(searchInfo2);
+            }
+        }
+        catch (Exception e)
+        {
+            error = keyword + " is a number.";
+        }
+    }
+    
+    private void ManageOldFamily(Family targetFamily)
+    {
+        NavigationManager.NavigateTo("/ManageFamily");
+        ManageFamily.SetInfo(targetFamily);
+    }
+
+    private void RemoveFamily(Family targetFamily)
+    {
+        ModelManager.RemoveFamily(targetFamily);
+        InitAllFamily();
+        SearchByKeyWord();
+    }
+}

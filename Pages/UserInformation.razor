@@ -1,0 +1,148 @@
+﻿@page "/UserInformation"
+
+@using global::Models
+@using System.Threading
+@using global::Assignment2.Data
+
+@inject IModelManager ModelManager
+@inject NavigationManager NavigationManager
+
+<h3>User Information</h3>
+<div style="float: left;width: 100%;height: auto">
+    <button class="btn-primary" style="float: right;position: relative;width:auto;right:15%;height: 40px;border-radius: 5px" @onclick="Logout">Logout</button>
+</div>
+<div style="float: left;width: 100%;height: auto">
+    <div style="margin: auto">
+        <h1 style="text-align: center">Change password</h1>
+        <div style="background: gray;margin: 40px auto;width: 300px;height: 50px">
+            <span class="oi oi-person" style="float: left;width:50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+            <input type="text" placeholder="User Name" style="float: left;width:250px;height: 50px" disabled="true" @bind="@newUser.UserName"/>
+        </div>
+        @if (succeed)
+        {
+            <div style="background: green;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-circle-check" style="float: left;width:50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+                <input type="password" placeholder="Old Password" style="float: left;width:250px;height: 50px" @bind="@oldUser.Password" @onclick="InitInfo"/>
+            </div>
+            <div style="background: green;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-circle-check" style="float: left;width:50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+                <input type="password" disabled="true" placeholder="New Password" style="float: left;width:250px;height: 50px" @bind="@newUser.Password"/>
+            </div>
+        }
+        else
+        {
+            <div style="background: gray;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-key" style="float: left;width:50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+                <input type="password" placeholder="Old Password" style="float: left;width:250px;height: 50px" @bind="@oldUser.Password"/>
+            </div>
+            <div style="background: gray;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-key" style="float: left;width:50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+                <input type="password" placeholder="New Password" style="float: left;width:250px;height: 50px" @bind="@newUser.Password"/>
+            </div>
+        }
+        @if (newUser.Password==confirmPassword&&!string.IsNullOrEmpty(confirmPassword)||succeed)
+        {
+            <div style="background: green;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-circle-check" style="float: left;width: 50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+                <input type="password" disabled="@succeed" placeholder="Confirm Password" style="float: left;width:250px;height: 50px" @bind="@confirmPassword"/>
+            </div>
+        }
+        else
+        {
+            <div style="background: red;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-circle-x" style="float: left;width: 50px;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+                <input type="password" placeholder="Confirm Password" style="float: left;width:250px;height: 50px" @bind="@confirmPassword"/>
+            </div>
+        }
+        <div style="margin: 0px auto;width: 300px;height: auto">
+            <p style="color: red">
+                @error
+            </p>
+        </div>
+        @if (succeed)
+        {
+            <div style="background: green;margin: 40px auto;width: 300px;height: 50px">
+                <span class="oi oi-circle-check" style="float: left;width: 100%;height: 50px;color: white;font-size: xx-large;line-height:50px;text-align: center"></span>
+            </div>
+        }
+        else
+        {
+            <div style="background: #1b6ec2;margin: 40px auto;width: 300px;height: 50px">
+                <button class="btn btn-primary" style="width: 100%;height: 100%;border-radius: 0px" @onclick="ChangePassword">Save</button>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private static string userName;
+    private string error;
+    private User newUser;
+    private User oldUser;
+    private string confirmPassword;
+    private bool succeed;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.IsLogin())
+        {
+            InitInfo();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+    
+    private void InitInfo()
+    {
+        newUser = new User
+        {
+            UserName = userName,
+            Password = null
+        };
+        oldUser = new User
+        {
+            UserName = userName,
+            Password = null
+        };
+        confirmPassword = null;
+        succeed = false;
+        error = null;
+    }
+
+    public static void SetInfo(string newUserName)
+    {
+        userName = newUserName;
+    }
+
+    private void ChangePassword()
+    {
+        if (!string.IsNullOrEmpty(newUser.Password))
+        {
+            if (newUser.Password==confirmPassword)
+            {
+                error = ModelManager.UpdatePassword(oldUser,newUser);
+            }
+            else
+            {
+                error = "Please write a correct confirm password.";
+            }
+        }
+        else
+        {
+            error = "Please write a username and password.";
+        }
+        if (error==null)
+        {
+            succeed = true;
+        }
+    }
+
+    private void Logout()
+    {
+        userName = null;
+        MainLayout.Logout();
+        NavigationManager.NavigateTo("");
+    }
+}

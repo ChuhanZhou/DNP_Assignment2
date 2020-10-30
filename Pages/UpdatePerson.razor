@@ -1,0 +1,278 @@
+﻿@page "/UpdatePerson"
+@using global::Models
+@using global::Assignment2.Data
+
+@inject IModelManager ModelManager
+@inject NavigationManager NavigationManager
+
+<h3>Update Person</h3>
+
+<EditForm Model="@newPerson" OnValidSubmit="@UpdateOldPerson">
+    <DataAnnotationsValidator/>
+    <p style="color: red">@error</p>
+    <ValidationSummary/>
+    <div style="float: left;width: 100%">
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Id:<input type="number" min="0" style="width:150px" @bind="@newPerson.Id" disabled="disabled"/>
+            Type:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@personType" disabled="disabled">
+            <option>Adult</option>
+            <option>Child</option>
+        </select>
+        <button class="btn-primary" type="submit" style="float: left;position: relative;width:auto;left:15%;height: 32px;top: 4px;border-radius: 5px">Save</button>
+    </div>
+    <div style="float: left;width: 100%">
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Age:<input type="number" min="0" style="width:150px" @bind="@newPerson.Age"/>
+            Sex:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@newPerson.Sex">
+            <option>M</option>
+            <option>F</option>
+        </select>
+    </div>
+    <div style="float: left;width: 100%">
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            First name:<input type="text" style="width:150px" @bind="@newPerson.FirstName"/>
+        </p>
+        <p style="float: left;width: 5px"></p>
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Last name:<input type="text" style="width:150px" @bind="@newPerson.LastName"/>
+        </p>
+    </div>
+    <div style="float: left;width: 100%">
+        <p style="float: left;position: relative;top: 8px">
+            Hair color:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@newPerson.HairColor">
+            @foreach (var hairColor in Person.ValidHairColor)
+            {
+                <option>@hairColor</option>
+            }
+        </select>
+        <p style="float: left;width: 5px"></p>
+        <p style="float: left;position: relative;top: 8px">
+            Eye color:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@newPerson.EyeColor">
+            @foreach (var eyeColor in Person.ValidEyeColor)
+            {
+                <option>@eyeColor</option>
+            }
+        </select>
+    </div>
+    <div style="float: left;width: 100%">
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Weight:<input type="number" min="0" step="0.1" style="width:150px" @bind="@newPerson.Weight"/>
+            Height:<input type="number" min="0" style="width:150px" @bind="@newPerson.Height"/>
+        </p>
+    </div>
+@switch (personType)
+{
+    case "Adult":
+        <div style="float: left;width: 100%">
+            <p style="float: left;position: relative;top: 8px">
+                Job:
+            </p>
+            <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="((Adult)newPerson).JobTitle">
+                @foreach (var jobType in Adult.ValidJob)
+                {
+                    <option>@jobType</option>
+                }
+            </select>
+        </div>
+        break;
+    case "Child":
+        <div style="float: left;width: 100%">
+            <p style="float: left;position: relative;top: 8px">
+                Interest:
+            </p>
+            <form>
+                @foreach (string interest in Interest.ValidInterest)
+                {
+                    <input type="checkbox" @onclick="@(()=>ChooseInterest(interest))" checked="@HasInterest(interest)">@interest
+                }
+            </form>
+        </div>
+        break;
+}
+</EditForm>
+@if (personType.Equals("Child"))
+{
+    <EditForm Model="@addPet" OnValidSubmit="@AddPet">
+        <DataAnnotationsValidator/>
+        <div style="float: left;width: 100%;height:auto">
+            <p style="float: left;position: relative;height: 32px;top: 4px">
+                Pet:    Id:<input type="number" min="0" style="width:150px" @bind="@addPet.Id"/>
+            </p>
+            <p style="float: left;position: relative;height: 32px;top: 4px">
+                Name:<input type="text" style="width:150px" @bind="@addPet.Name"/>
+            </p>
+            <p style="float: left;position: relative;height: 32px;top: 4px">
+                Species:
+            </p>
+            <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@addPet.Species">
+                @foreach (var Species in Pet.ValidSpecies)
+                {
+                    <option>@Species</option>
+                }
+            </select>
+            <p style="float: left;position: relative;height: 32px;top: 4px">
+                Age:<input type="number" min="0" style="width:150px" @bind="@addPet.Age"/>
+            </p>
+            <button class="btn-primary" type="submit" style="float: left;position: relative;width:auto;left:10px;height: 32px;top: 4px;border-radius: 5px">Add</button>
+        </div>
+        <div style="float: left;width: 100%;height:auto">
+            <p style="color: red">@errorForPet</p>
+            <ValidationSummary/>
+        </div>
+    </EditForm>
+    <div style="float: left;width: 100%">
+        @if (((Child)newPerson).Pets==null)
+        {
+            <p>       
+                <em>Loading...</em>
+            </p>
+        }
+        else if (((Child)newPerson).Pets.Count==0)
+        {
+            <p>       
+                <em>Can't find any pet.</em>
+            </p>
+        }
+        else 
+        {
+            <table class="table">        
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Species</th>
+                    <th>Age</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>        
+                <tbody>
+                @foreach (var pet in ((Child)newPerson).Pets)
+                {
+                    <tr>
+                        <td>@pet.Id</td>
+                        <td>@pet.Name</td>
+                        <td>@pet.Species</td>
+                        <td>@pet.Age</td>
+                        <td>
+                            <button @onclick="@(() => RemovePet(pet))">
+                                <i class="oi oi-delete" style="color: red"/>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+    </div>
+}
+
+@code {
+    private static Person newPerson = new Person();
+    private static string personType = "Person";
+    private string error;
+    private string errorForPet;
+    private Pet addPet;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.IsLogin())
+        {
+            addPet = new Pet
+            {
+                Species = Pet.ValidSpecies[0]
+            };
+        }
+        else
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    public static void setInfo(Adult adult)
+    {
+        if (adult!=null)
+        {
+            newPerson = adult;
+            personType = "Adult";
+        }
+    }
+
+    public static void setInfo(Child child)
+    {
+        if (child!=null)
+        {
+            newPerson = child;
+            personType = "Child";
+        }
+    }
+    
+    private void ChooseInterest(string chooseInterest)
+    {
+        if (HasInterest(chooseInterest))
+        {
+            foreach (var interest in ((Child)newPerson).ChildInterests.Where(interest => interest.Type.Equals(chooseInterest)))
+            {
+                ((Child)newPerson).ChildInterests.Remove(interest);
+                break;
+            }
+        }
+        else
+        {
+            ((Child)newPerson).ChildInterests.Add(new Interest {Type = chooseInterest});
+        }
+    }
+
+    private bool HasInterest(string chooseInterest)
+    {
+        foreach (var interest in ((Child)newPerson).ChildInterests.Where(interest => interest.Type.Equals(chooseInterest)))
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    private void AddPet()
+    {
+        errorForPet = null;
+        foreach (var x in ((Child)newPerson).Pets.Where(x => x.Id == addPet.Id))
+        {
+            errorForPet = "This pet id is used.";
+            break;
+        }
+        if (errorForPet==null)
+        {
+            ((Child)newPerson).Pets.Add(addPet);
+            addPet = new Pet
+            {
+                Species = addPet.Species
+            };
+        }
+    }
+    
+    private void RemovePet(Pet pet)
+    {
+        foreach (var x in ((Child)newPerson).Pets.Where(x => x.Id == pet.Id))
+        {
+            ((Child)newPerson).Pets.Remove(x);
+            break;
+        }
+        errorForPet = null;
+    }
+    
+    private void UpdateOldPerson()
+    {
+        error = ModelManager.UpdatePerson(newPerson);
+        if (error==null)
+        {
+            NavigationManager.NavigateTo("AllPerson");
+        }
+    }
+}

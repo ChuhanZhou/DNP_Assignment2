@@ -1,0 +1,311 @@
+﻿@page "/ManageFamily"
+@using global::Assignment2.Data
+@using global::Models
+
+@inject IModelManager ModelManager
+@inject NavigationManager NavigationManager
+
+<h3>Manage Family</h3>
+
+<EditForm Model="@newFamily" OnValidSubmit="@UpdateOldFamily">
+    <DataAnnotationsValidator/>
+    <div style="float: left;width: 100%;height:auto">
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Street name:<input type="text" style="width:150px" @bind="@newFamily.StreetName"/>
+        </p>
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            House number:<input type="number" min="0" style="width:150px" @bind="@newFamily.HouseNumber"/>
+        </p>
+        <button class="btn-primary" type="submit" style="float: left;position: relative;width:auto;left:10px;height: 32px;top: 4px;border-radius: 5px">Save</button>
+    </div>
+    <div style="float: left;width: 100%;height:auto">
+        <p style="color: red">@error</p>
+        <ValidationSummary/>
+    </div>
+</EditForm>
+<div style="float: left;width: 100%;height:40px">
+    <p style="float: left;position: relative;height: 32px;top: 4px">
+        Adult:    Id:<input type="number" min="0" style="width:150px" @bind="@addAdultId"/>
+    </p>
+    <button class="btn-primary" style="float: left;position: relative;width:auto;left:10px;height: 32px;top: 4px;border-radius: 5px" @onclick="AddAdult">Add</button>
+</div>
+<div style="float: left;width: 100%;height:auto">
+    <p style="color: red">@errorForAdult</p>
+</div>
+<div style="float: left;width: 100%">
+    @if (newFamily.Adults==null)
+    {
+        <p>       
+            <em>Loading...</em>
+        </p>
+    }
+    else if (newFamily.Adults.GetCount()==0)
+    {
+        <p>       
+            <em>Can't find any adult.</em>
+        </p>
+    }
+    else 
+    {
+        <table class="table">        
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Height(m)</th>
+                <th>Weight(kg)</th>
+                <th>Sex</th>
+                <th>Delete</th>
+            </tr>
+            </thead>        
+            <tbody>
+            @foreach (var adult in newFamily.Adults.adults)
+            {
+                <tr>
+                    <td>@adult.Id</td>
+                    <td>@adult.FirstName</td>
+                    <td>@adult.LastName</td>
+                    <td>@adult.Age</td>
+                    <td>@adult.Height</td>
+                    <td>@adult.Weight</td>
+                    <td>@adult.Sex</td>
+                    <td>
+                        <button @onclick="@(() => RemoveAdult(adult))">
+                            <i class="oi oi-delete" style="color: red"/>
+                        </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+<div style="float: left;width: 100%;height:40px">
+    <p style="float: left;position: relative;height: 32px;top: 4px">
+        Child:    Id:<input type="number" min="0" style="width:150px" @bind="@addChildId"/>
+    </p>
+    <button class="btn-primary" style="float: left;position: relative;width:auto;left:10px;height: 32px;top: 4px;border-radius: 5px" @onclick="AddChild">Add</button>
+</div>
+<div style="float: left;width: 100%;height:auto">
+    <p style="color: red">@errorForChild</p>
+</div>
+<div style="float: left;width: 100%">
+    @if (newFamily.Children==null)
+        {
+            <p>       
+                <em>Loading...</em>
+            </p>
+        }
+        else if (newFamily.Children.GetCount()==0)
+        {
+            <p>       
+                <em>Can't find any child.</em>
+            </p>
+        }
+        else 
+        {
+            <table class="table">        
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Height(m)</th>
+                    <th>Weight(kg)</th>
+                    <th>Sex</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>        
+                <tbody>
+                @foreach (var child in newFamily.Children.childs)
+                {
+                    <tr>
+                        <td>@child.Id</td>
+                        <td>@child.FirstName</td>
+                        <td>@child.LastName</td>
+                        <td>@child.Age</td>
+                        <td>@child.Height</td>
+                        <td>@child.Weight</td>
+                        <td>@child.Sex</td>
+                        <td>
+                            <button @onclick="@(() => RemoveChild(child))">
+                                <i class="oi oi-delete" style="color: red"/>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+</div>
+<EditForm Model="@addPet" OnValidSubmit="@AddPet">
+    <DataAnnotationsValidator/>
+    <div style="float: left;width: 100%;height:auto">
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Pet:    Id:<input type="number" min="0" style="width:150px" @bind="@addPet.Id"/>
+        </p>
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Name:<input type="text" style="width:150px" @bind="@addPet.Name"/>
+        </p>
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Species:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@addPet.Species">
+            @foreach (var Species in Pet.ValidSpecies)
+            {
+                <option>@Species</option>
+            }
+        </select>
+        <p style="float: left;position: relative;height: 32px;top: 4px">
+            Age:<input type="number" min="0" style="width:150px" @bind="@addPet.Age"/>
+        </p>
+        <button class="btn-primary" type="submit" style="float: left;position: relative;width:auto;left:10px;height: 32px;top: 4px;border-radius: 5px">Add</button>
+    </div>
+    <div style="float: left;width: 100%;height:auto">
+        <p style="color: red">@errorForPet</p>
+        <ValidationSummary/>
+    </div>
+</EditForm>
+<div style="float: left;width: 100%">
+    @if (newFamily.Pets==null)
+        {
+            <p>       
+                <em>Loading...</em>
+            </p>
+        }
+        else if (newFamily.Pets.Count==0)
+        {
+            <p>       
+                <em>Can't find any pet.</em>
+            </p>
+        }
+        else 
+        {
+            <table class="table">        
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Species</th>
+                    <th>Age</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>        
+                <tbody>
+                @foreach (var pet in newFamily.Pets)
+                {
+                    <tr>
+                        <td>@pet.Id</td>
+                        <td>@pet.Name</td>
+                        <td>@pet.Species</td>
+                        <td>@pet.Age</td>
+                        <td>
+                            <button @onclick="@(() => RemovePet(pet))">
+                                <i class="oi oi-delete" style="color: red"/>
+                            </button>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+</div>
+
+@code {
+    private static Family oldFamily;
+    private Family newFamily;
+    private string error;
+    private string errorForAdult;
+    private string errorForChild;
+    private string errorForPet;
+    private int addAdultId;
+    private int addChildId;
+    private Pet addPet;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.IsLogin())
+        {
+            newFamily = oldFamily.Copy();
+            error = null;
+            errorForAdult = null;
+            errorForChild = null;
+            errorForPet = null;
+            addPet = new Pet
+            {
+                Species = Pet.ValidSpecies[0]
+            };
+        }
+        else
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    public static void SetInfo(Family family)
+    {
+        oldFamily = family;
+    }
+    
+    private void AddAdult()
+    {
+        errorForAdult = newFamily.Adults.AddAdult(ModelManager.GetAllAdult().GetAdultById(addAdultId));
+    }
+
+    private void RemoveAdult(Adult adult)
+    {
+        newFamily.Adults.RemoveAdult(adult);
+        errorForAdult = null;
+    }
+    
+    private void AddChild()
+    {
+        errorForChild = newFamily.Children.AddChild(ModelManager.GetAllChild().GetChildById(addChildId));
+    }
+    
+    private void RemoveChild(Child child)
+    {
+        newFamily.Children.RemoveChild(child);
+        errorForChild = null;
+    }
+    
+    private void AddPet()
+    {
+        errorForPet = null;
+        foreach (var x in newFamily.Pets.Where(x => x.Id == addPet.Id))
+        {
+            errorForPet = "This pet id is used.";
+            break;
+        }
+        if (errorForPet==null)
+        {
+            newFamily.Pets.Add(addPet);
+            addPet = new Pet
+            {
+                Species = addPet.Species
+            };
+        }
+    }
+    
+    private void RemovePet(Pet pet)
+    {
+        foreach (var x in newFamily.Pets.Where(x => x.Id == pet.Id))
+        {
+            newFamily.Pets.Remove(x);
+            break;
+        }
+        errorForPet = null;
+    }
+
+    private void UpdateOldFamily()
+    {
+        error = ModelManager.UpdateFamily(oldFamily,newFamily);
+        if (error==null)
+        {
+            NavigationManager.NavigateTo("AllFamily");
+        }
+    }
+}

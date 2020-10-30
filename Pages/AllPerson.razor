@@ -1,0 +1,348 @@
+﻿@page "/AllPerson"
+
+@using global::Assignment2.Data
+@using global::Models
+
+@inject IModelManager ModelManager
+@inject NavigationManager NavigationManager
+
+<h3>Person List</h3>
+<div style="float: left;width: 100%;height: auto">
+    <div style="float: left">
+        <p style="float: left;position: relative;top: 8px">
+            Key word:
+        </p>
+        <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="searchKeyWord" @onclick="ChangeKeyWord">
+            @foreach (var keyWord in KeyWordList)
+            {
+                <option>@keyWord</option>
+            }
+        </select>
+    </div>
+    @switch (searchKeyWord)
+    {
+        case "All":
+            break;
+        case "Id":
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    :    <input type="number" min="0" style="width:150px" @bind="@searchInfo1"/>
+                </p>
+            </div>
+            break;
+        case "Name":
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    First name:<input type="text" style="width:150px" @bind="@searchInfo1"/>
+                </p>
+            </div>
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    Last name:<input type="text" style="width:150px" @bind="@searchInfo2"/>
+                </p>
+            </div>
+            break;
+        case "Age":
+        case "Height":
+        case "Weight":
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    From:<input type="number" min="0" style="width:150px" @bind="@searchInfo1"/>
+                </p>
+            </div>
+            <div style="float: left">
+                <p style="float: left;position: relative;height: 32px;top: 4px">
+                    to:<input type="number" min="0" style="width:150px" @bind="@searchInfo2"/>
+                </p>
+            </div>
+            break;
+        case "Sex":
+            <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@searchInfo1" @onclick="SearchByKeyWord">
+                <option>All</option>
+                <option>M</option>
+                <option>F</option>
+            </select>
+            break;
+        case "Job":
+            <select class="form-control selectpicker" style="float: left;position: relative;width:auto;height: 32px;top: 4px" @bind="@searchInfo1" @onclick="SearchByKeyWord">
+                <option>All</option>
+                @foreach (string job in Adult.ValidJob)
+                {
+                    <option>@job</option>
+                }
+            </select>
+            break;
+    }
+    @if (searchKeyWord != "All" && searchKeyWord != "Sex" && searchKeyWord != "Job")
+    {
+        <button class="btn-primary" style="float: left;position: relative;width:auto;left: 10px;height: 32px;top: 4px;border-radius: 5px" @onclick="SearchByKeyWord">Search</button>
+    }
+</div>
+<div style="float: left;width: 100%;height: auto">
+    <p style="color: red">
+        @error
+    </p>
+</div>
+<div>
+    @if (showList==null)
+    {
+        <p>       
+            <em>Loading...</em>
+        </p>
+    }
+    else if (showList.GetCount()==0)
+    {
+        <p>       
+            <em>Can't find any person.</em>
+        </p>
+    }
+    else 
+    {
+        <table class="table">        
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Height(m)</th>
+                <th>Weight(kg)</th>
+                <th>Sex</th>
+                <th>Update</th>
+                <th>Delete</th>
+            </tr>
+            </thead>        
+            <tbody>
+            @foreach (var person in showList.persons)
+            {
+                <tr>
+                    <td>@person.Id</td>
+                    <td>@person.FirstName</td>
+                    <td>@person.LastName</td>
+                    <td>@person.Age</td>
+                    <td>@person.Height</td>
+                    <td>@person.Weight</td>
+                    <td>@person.Sex</td>
+                    <td>
+                        <button @onclick="@(() => UpdatePerson(person))">
+                            <i class="oi oi-spreadsheet" style="color: black"/>
+                        </button>
+                    </td>
+                    <td>
+                        <button @onclick="@(() => RemovePerson(person))">
+                            <i class="oi oi-delete" style="color: red"/>
+                        </button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>
+
+@code {
+    private static readonly List<string> KeyWordList = new[]
+    {
+        "All","Id","Name","Age","Height","Weight","Sex","Job"
+    }.ToList();
+    private AdultList allAdult;
+    private ChildList allChild;
+    private PersonList showList;
+    private string error;
+    private string searchKeyWord;
+    private string searchInfo1;
+    private string searchInfo2;
+    private string historyKeyWord;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (MainLayout.IsLogin())
+        {
+            error = null;
+            searchKeyWord = KeyWordList[0];
+            historyKeyWord = searchKeyWord;
+            showList = new PersonList();
+            InitShowList();
+        }
+        else
+        {
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    private void InitShowList()
+    {
+        allAdult = ModelManager.GetAllAdult();
+        allChild = ModelManager.GetAllChild();
+        showList = new PersonList();
+        foreach (var adult in allAdult.adults)
+        {
+            showList.AddPerson(adult);
+        }
+        foreach (var child in allChild.childs)
+        {
+            showList.AddPerson(child);
+        }
+    }
+
+    private void ChangeKeyWord()
+    {
+        if (historyKeyWord!=searchKeyWord)
+        {
+            error = null;
+            switch (searchKeyWord)
+            {
+                case "All":
+                    break;
+                case "Id":
+                    searchInfo1 = "0";
+                    searchInfo2 = null;
+                    break;
+                case "Name":
+                    searchInfo1 = null;
+                    searchInfo2 = null;
+                    break;
+                case "Age":
+                    searchInfo1 = "0";
+                    searchInfo2 = "125";
+                    break;
+                case "Height":
+                    searchInfo1 = "1";
+                    searchInfo2 = "250";
+                    break;
+                case "Weight":
+                    searchInfo1 = "30";
+                    searchInfo2 = "250";
+                    break;
+                case "Sex":
+                    searchInfo1 = "All";
+                    searchInfo2 = null;
+                    break;
+                case "Job":
+                    searchInfo1 = "All";
+                    searchInfo2 = null;
+                    break;
+            }
+            SearchByKeyWord();
+        }
+        historyKeyWord = searchKeyWord;
+    }
+    
+    private void SearchByKeyWord()
+    {
+        error = null;
+        InitShowList();
+        switch (searchKeyWord)
+        {
+            case "All":
+                break;
+            case "Id":
+                if (!string.IsNullOrEmpty(searchInfo1))
+                {
+                    Person target = null;
+                    try
+                    {
+                        target = showList.GetPersonById(int.Parse(searchInfo1));
+                    }
+                    catch (Exception e)
+                    {
+                        error = "Id is a number.";
+                    }
+                    showList = new PersonList();
+                    showList.AddPerson(target);
+                }
+                break;
+            case "Name":
+                if (!string.IsNullOrEmpty(searchInfo1))
+                {
+                    showList = showList.GetPersonListByFirstName(searchInfo1);
+                }
+                if (!string.IsNullOrEmpty(searchInfo2))
+                {
+                    showList = showList.GetPersonListByLastName(searchInfo2);
+                }
+                break;
+            case "Age":
+                CheckSearchInfo(searchKeyWord,0,125);
+                showList = showList.GetPersonListByAge(float.Parse(searchInfo1), float.Parse(searchInfo2));
+                break;
+            case "Height":
+                CheckSearchInfo(searchKeyWord,1,250);
+                showList = showList.GetPersonListByHeight(float.Parse(searchInfo1), float.Parse(searchInfo2));
+                break;
+            case "Weight":
+                CheckSearchInfo(searchKeyWord,30,250);
+                showList = showList.GetPersonListByWeight(float.Parse(searchInfo1), float.Parse(searchInfo2));
+                break;
+            case "Sex":
+                if (searchInfo1!="All")
+                {
+                    showList = showList.GetPersonListBySex(searchInfo1);
+                }
+                break;
+            case "Job":
+                if (searchInfo1!="All")
+                {
+                    showList = new PersonList();
+                    foreach (var adult in allAdult.GetAdultListByJob(searchInfo1).adults)
+                    {
+                        showList.AddPerson(adult);
+                    }
+                }
+                break;
+        }
+    }
+
+    private void CheckSearchInfo(string keyword,int min, int max)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(searchInfo1))
+            {
+                searchInfo1 = "" + min;
+            }
+            else if(float.Parse(searchInfo1)<min||float.Parse(searchInfo1)>max)
+            {
+                searchInfo1 = "" + min;
+            }
+            if (string.IsNullOrEmpty(searchInfo2))
+            {
+                searchInfo2 = "" + max;
+            }
+            else if(float.Parse(searchInfo2)<min||float.Parse(searchInfo2)>max)
+            {
+                searchInfo2 = "" + max;
+            }
+            else if (float.Parse(searchInfo2)<float.Parse(searchInfo1))
+            {
+                searchInfo2 = "" + float.Parse(searchInfo1);
+            }
+            
+        }
+        catch (Exception e)
+        {
+            error = keyword + " is a number.";
+        }
+    }
+
+    private void UpdatePerson(Person targetPerson)
+    {
+        NavigationManager.NavigateTo("UpdatePerson");
+        if (allAdult.GetAdultById(targetPerson.Id)!=null)
+        {
+            Pages.UpdatePerson.setInfo(allAdult.GetAdultById(targetPerson.Id));
+        }
+        else
+        {
+            Pages.UpdatePerson.setInfo(allChild.GetChildById(targetPerson.Id));
+        }
+        
+    }
+
+    private void RemovePerson(Person targetPerson)
+    {
+        ModelManager.RemovePerson(targetPerson);
+        InitShowList();
+        SearchByKeyWord();
+    }
+}
