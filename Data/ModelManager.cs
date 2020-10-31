@@ -63,29 +63,24 @@ namespace Assignment2.Data
             await cloudModelManager.RemoveUserAsync(user);
         }
 
-        public string AddFamily(Family newFamily)
+        public async Task<string> AddFamilyAsync(Family newFamily)
         {
-            string result = modelPackage.FamilyList.AddFamily(newFamily);
-            UpdateData();
-            return result;
+            return await cloudModelManager.AddFamilyAsync(newFamily);
         }
 
-        public FamilyList GetAllFamily()
+        public async Task<FamilyList> GetAllFamilyAsync()
         {
-            return modelPackage.FamilyList.GetAllWithFamilyList();
+            return await cloudModelManager.GetAllFamilyAsync();
         }
 
-        public string UpdateFamily(Family oldFamily, Family newFamily)
+        public async Task<string> UpdateFamilyAsync(Family oldFamily, Family newFamily)
         {
-            string result = modelPackage.FamilyList.UpdateFamily(oldFamily, newFamily);
-            UpdateData();
-            return result;
+            return await cloudModelManager.UpdateFamilyAsync(oldFamily,newFamily);
         }
 
-        public void RemoveFamily(Family family)
+        public async Task RemoveFamilyAsync(Family family)
         {
-            modelPackage.FamilyList.RemoveFamily(family);
-            UpdateData();
+            await cloudModelManager.RemoveFamilyAsync(family);
         }
 
         public string AddAdult(Adult newAdult)

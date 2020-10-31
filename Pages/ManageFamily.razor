@@ -1,6 +1,6 @@
 ﻿@page "/ManageFamily"
-@using Assignment2.Models.Unit
 @using Assignment2.Data
+@using Assignment2.Models.Unit
 
 @inject IModelManager ModelManager
 @inject NavigationManager NavigationManager
@@ -300,10 +300,10 @@
         errorForPet = null;
     }
 
-    private void UpdateOldFamily()
+    private async Task UpdateOldFamily()
     {
-        error = ModelManager.UpdateFamily(oldFamily,newFamily);
-        if (error==null)
+        error = await ModelManager.UpdateFamilyAsync(oldFamily,newFamily);
+        if (string.IsNullOrEmpty(error))
         {
             NavigationManager.NavigateTo("AllFamily");
         }

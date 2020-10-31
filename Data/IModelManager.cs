@@ -11,10 +11,10 @@ namespace Assignment2.Data
         Task<UserList> GetAllUserAsync();
         Task<string> UpdatePasswordAsync(User oldUser,User newUser);
         Task RemoveUserAsync(User user);
-        string AddFamily(Family newFamily);
-        FamilyList GetAllFamily();
-        string UpdateFamily(Family oldFamily, Family newFamily);
-        void RemoveFamily(Family family);
+        Task<string> AddFamilyAsync(Family newFamily);
+        Task<FamilyList> GetAllFamilyAsync();
+        Task<string> UpdateFamilyAsync(Family oldFamily, Family newFamily);
+        Task RemoveFamilyAsync(Family family);
         string AddAdult(Adult newAdult);
         AdultList GetAllAdult();
         string AddChild(Child newChild);

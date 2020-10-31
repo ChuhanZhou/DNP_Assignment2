@@ -294,10 +294,10 @@
         errorForPet = null;
     }
 
-    private void AddNewFamily()
+    private async Task AddNewFamily()
     {
-        error = ModelManager.AddFamily(newFamily);
-        if (error==null)
+        error = await ModelManager.AddFamilyAsync(newFamily);
+        if (string.IsNullOrEmpty(error))
         {
             NavigationManager.NavigateTo("AllFamily");
         }

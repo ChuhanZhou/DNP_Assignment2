@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using System.Threading.Tasks;
 using Assignment2.Models.Unit;
 using DNP_Assignment2.Data;
@@ -13,7 +12,7 @@ namespace Assignment2.Data
     public class CloudModelManager
     {
         private HttpClient client;
-        private readonly string uri = "https://localhost:5003/api/user";
+        private readonly string uri = "https://localhost:5003/api/";
 
         public CloudModelManager()
         {
@@ -25,63 +24,72 @@ namespace Assignment2.Data
         }
         public async Task<string> AddUserAsync(User newUser)
         {
-            string newUserJson = JsonSerializer.Serialize(newUser);
+            var newUserJson = JsonSerializer.Serialize(newUser);
             HttpContent httpContent = new StringContent(newUserJson,Encoding.UTF8,"application/json");
-            var message = await client.PostAsync(uri,httpContent);
-            string result = await message.Content.ReadAsStringAsync();
+            var message = await client.PostAsync(uri + "user",httpContent);
+            var result = await message.Content.ReadAsStringAsync();
             return result;
         }
 
         public async Task<bool> LoginAsync(User user)
         {
-            string userJson = JsonSerializer.Serialize(user);
-            string message = await client.GetStringAsync(uri + "/login?userJson=" + userJson);
+            var userJson = JsonSerializer.Serialize(user);
+            var message = await client.GetStringAsync(uri + "user/login?userJson=" + userJson);
             bool result = Convert.ToBoolean(message);
             return result;
         }
 
         public async Task<UserList> GetAllUserAsync()
         {
-            string message = await client.GetStringAsync(uri);
+            var message = await client.GetStringAsync(uri + "user");
             var result = JsonSerializer.Deserialize<UserList>(message);
             return result;
         }
 
         public async Task<string> UpdatePasswordAsync(User oldUser, User newUser)
         {
-            List<User> userList = new List<User>();
-            userList.Add(oldUser);
-            userList.Add(newUser);
-            string userListJson = JsonSerializer.Serialize(userList);
+            List<User> userList = new List<User> {oldUser, newUser};
+            var userListJson = JsonSerializer.Serialize(userList);
             HttpContent httpContent = new StringContent(userListJson,Encoding.UTF8,"application/json");
-            var message = await client.PatchAsync(uri,httpContent);
+            var message = await client.PatchAsync(uri + "user",httpContent);
             var result = await message.Content.ReadAsStringAsync();
             return result;
         }
 
         public async Task RemoveUserAsync(User user)
         {
-            await client.DeleteAsync(uri + "?userName=" + user.UserName);
+            await client.DeleteAsync(uri + "user?userName=" + user.UserName);
         }
 
-        public string AddFamily(Family newFamily)
+        public async Task<string> AddFamilyAsync(Family newFamily)
         {
-            throw new System.NotImplementedException();
+            var newFamilyJson = JsonSerializer.Serialize(newFamily);
+            HttpContent httpContent = new StringContent(newFamilyJson,Encoding.UTF8,"application/json");
+            var message = await client.PostAsync(uri + "family",httpContent);
+            var result = await message.Content.ReadAsStringAsync();
+            return result;
         }
 
-        public FamilyList GetAllFamily()
+        public async Task<FamilyList> GetAllFamilyAsync()
         {
-            throw new System.NotImplementedException();
+            var message = await client.GetStringAsync(uri + "family");
+            var result = JsonSerializer.Deserialize<FamilyList>(message);
+            return result;
         }
 
-        public string UpdateFamily(Family oldFamily, Family newFamily)
+        public async Task<string> UpdateFamilyAsync(Family oldFamily, Family newFamily)
         {
-            throw new System.NotImplementedException();
+            var familyList = new List<Family> {oldFamily,newFamily};
+            var familyListJson = JsonSerializer.Serialize(familyList);
+            HttpContent httpContent = new StringContent(familyListJson,Encoding.UTF8,"application/json");
+            var message = await client.PatchAsync(uri + "family",httpContent);
+            var result = await message.Content.ReadAsStringAsync();
+            return result;
         }
 
-        public void RemoveFamily(Family family)
+        public async Task RemoveFamilyAsync(Family family)
         {
-            throw new System.NotImplementedException();
+            await client.DeleteAsync(uri + "family?streetName=" + family.StreetName + "&houseNumber=" + family.HouseNumber);
         }
 
         public string AddAdult(Adult newAdult)

@@ -148,7 +148,7 @@
     {
         if (MainLayout.IsLogin())
         {
-            InitAllFamily();
+            await InitAllFamily();
         }
         else
         {
@@ -156,12 +156,12 @@
         }
     }
 
-    private void InitAllFamily()
+    private async Task InitAllFamily()
     {
-        allFamily = ModelManager.GetAllFamily();
+        allFamily = await ModelManager.GetAllFamilyAsync();
     }
     
-    private void ChangeKeyWord()
+    private async Task ChangeKeyWord()
     {
         if (historyKeyWord!=searchKeyWord)
         {
@@ -186,26 +186,26 @@
                     searchInfo3 = "0";
                     break;
             }
-            SearchByKeyWord();
+            await SearchByKeyWord();
         }
         historyKeyWord = searchKeyWord;
     }
 
-    private void ChangeSearchInfo1()
+    private async Task ChangeSearchInfo1()
     {
         if (historySearchInfo1!=searchInfo1)
         {
             error = null;
             CheckSearchInfo("Number Of Person",0);
-            SearchByKeyWord();
+            await SearchByKeyWord();
         }
         historySearchInfo1 = searchInfo1;
     }
     
-    private void SearchByKeyWord()
+    private async Task SearchByKeyWord()
     {
         error = null;
-        InitAllFamily();
+        await InitAllFamily();
         switch (searchKeyWord)
         {
             case "All":
@@ -306,10 +306,10 @@
         ManageFamily.SetInfo(targetFamily);
     }
 
-    private void RemoveFamily(Family targetFamily)
+    private async Task RemoveFamily(Family targetFamily)
     {
-        ModelManager.RemoveFamily(targetFamily);
-        InitAllFamily();
-        SearchByKeyWord();
+        await ModelManager.RemoveFamilyAsync(targetFamily);
+        await InitAllFamily();
+        await SearchByKeyWord();
     }
 }
