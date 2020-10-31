@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text.Json;
 using Assignment2.Models.Unit;
+using Assignment2.Persistence;
 using DNP_Assignment2.Data;
 
 namespace Assignment2.Data
@@ -13,36 +14,18 @@ namespace Assignment2.Data
         public ModelManager()
         {
             modelPackage = new ModelPackage();
-            dataFileName = "FileData.json";
+            dataFileName = "DataFile.json";
             ReadData();
         }
 
         private void ReadData()
         {
-            if (!File.Exists(dataFileName))
-            {
-                
-                //List<OldFamily> families = new List<OldFamily>(new FileContext().Families);
-                //foreach (var family in families)
-                //{
-                //    modelPackage.FamilyList.AddFamily(family.ConvertToFamily());
-                //}
-                //List<Adult> adults = new List<Adult>(new FileContext().Adults);
-                //foreach (var adult in adults)
-                //{
-                //    modelPackage.AdultList.AddAdult(adult);
-                //}
-                
-                UpdateData();
-            }
-            string json = File.ReadAllText(dataFileName);
-            modelPackage = JsonSerializer.Deserialize<ModelPackage>(json);
+            DataFileContext.ReadData(dataFileName,modelPackage);
         }
 
         private void UpdateData()
         {
-            string json = JsonSerializer.Serialize(modelPackage,new JsonSerializerOptions {WriteIndented = true});
-            File.WriteAllText(dataFileName,json);
+            DataFileContext.UpdateData(dataFileName,modelPackage);
         }
 
         public string AddUser(User newUser)
