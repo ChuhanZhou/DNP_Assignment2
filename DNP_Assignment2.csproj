@@ -5,4 +5,8 @@
         <RootNamespace>Assignment2</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="EDennis.AspNetCore.Base" Version="3.1.2-alpha" />
+    </ItemGroup>
+
 </Project>

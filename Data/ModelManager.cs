@@ -44,22 +44,23 @@ namespace Assignment2.Data
             //return modelPackage.UserList.CheckPassword(user);
         }
 
-        public UserList GetAllUser()
+        public async Task<UserList> GetAllUserAsync()
         {
             return modelPackage.UserList.GetAllUser();
         }
 
-        public string UpdatePassword(User oldUser,User newUser)
+        public async Task<string> UpdatePasswordAsync(User oldUser,User newUser)
         {
-            string result = modelPackage.UserList.UpdatePassword(oldUser,newUser);
-            UpdateData();
-            return result;
+            //string result = modelPackage.UserList.UpdatePassword(oldUser,newUser);
+            //UpdateData();
+            return await cloudModelManager.UpdatePasswordAsync(oldUser,newUser);
         }
 
-        public void RemoveUser(User user)
+        public async Task RemoveUserAsync(User user)
         {
-            modelPackage.UserList.RemoveUser(user);
-            UpdateData();
+            //modelPackage.UserList.RemoveUser(user);
+            //UpdateData();
+            await cloudModelManager.RemoveUserAsync(user);
         }
 
         public string AddFamily(Family newFamily)

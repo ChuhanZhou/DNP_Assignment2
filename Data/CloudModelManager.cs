@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 using Assignment2.Models.Unit;
 using DNP_Assignment2.Data;
@@ -28,31 +29,39 @@ namespace Assignment2.Data
             HttpContent httpContent = new StringContent(newUserJson,Encoding.UTF8,"application/json");
             var message = await client.PostAsync(uri,httpContent);
             string result = await message.Content.ReadAsStringAsync();
-            Console.WriteLine(result);
             return result;
         }
 
         public async Task<bool> LoginAsync(User user)
         {
             string userJson = JsonSerializer.Serialize(user);
-            string message = await client.GetStringAsync("https://localhost:5003/api/user/login?userJson=" + userJson);
+            string message = await client.GetStringAsync(uri + "/login?userJson=" + userJson);
             bool result = Convert.ToBoolean(message);
             return result;
         }
 
-        public UserList GetAllUser()
+        public async Task<UserList> GetAllUserAsync()
         {
-            throw new System.NotImplementedException();
+            string message = await client.GetStringAsync(uri);
+            var result = JsonSerializer.Deserialize<UserList>(message);
+            return result;
         }
 
-        public string UpdatePassword(User oldUser, User newUser)
+        public async Task<string> UpdatePasswordAsync(User oldUser, User newUser)
         {
-            throw new System.NotImplementedException();
+            List<User> userList = new List<User>();
+            userList.Add(oldUser);
+            userList.Add(newUser);
+            string userListJson = JsonSerializer.Serialize(userList);
+            HttpContent httpContent = new StringContent(userListJson,Encoding.UTF8,"application/json");
+            var message = await client.PatchAsync(uri,httpContent);
+            var result = await message.Content.ReadAsStringAsync();
+            return result;
         }
 
-        public void RemoveUser(User user)
+        public async Task RemoveUserAsync(User user)
         {
-            throw new System.NotImplementedException();
+            await client.DeleteAsync(uri + "?userName=" + user.UserName);
         }
 
         public string AddFamily(Family newFamily)

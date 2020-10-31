@@ -8,9 +8,9 @@ namespace Assignment2.Data
     {
         Task<string> AddUserAsync(User newUser);
         Task<bool> LoginAsync(User user);
-        UserList GetAllUser();
-        string UpdatePassword(User oldUser,User newUser);
-        void RemoveUser(User user);
+        Task<UserList> GetAllUserAsync();
+        Task<string> UpdatePasswordAsync(User oldUser,User newUser);
+        Task RemoveUserAsync(User user);
         string AddFamily(Family newFamily);
         FamilyList GetAllFamily();
         string UpdateFamily(Family oldFamily, Family newFamily);

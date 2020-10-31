@@ -3,7 +3,6 @@
 @using Assignment2.Data
 @using Assignment2.Models.Unit
 
-
 @inject IModelManager ModelManager
 @inject NavigationManager NavigationManager
 
@@ -116,13 +115,13 @@
         userName = newUserName;
     }
 
-    private void ChangePassword()
+    private async Task ChangePassword()
     {
         if (!string.IsNullOrEmpty(newUser.Password))
         {
             if (newUser.Password==confirmPassword)
             {
-                error = ModelManager.UpdatePassword(oldUser,newUser);
+                error = await ModelManager.UpdatePasswordAsync(oldUser,newUser);
             }
             else
             {
@@ -133,7 +132,7 @@
         {
             error = "Please write a username and password.";
         }
-        if (error==null)
+        if (string.IsNullOrEmpty(error))
         {
             succeed = true;
         }

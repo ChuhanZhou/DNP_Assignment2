@@ -25,6 +25,12 @@
   },
   "frameworks": {
     "netcoreapp3.1": {
+      "dependencies": {
+        "EDennis.AspNetCore.Base": {
+          "target": "Package",
+          "version": "[3.1.2-alpha, )"
+        }
+      },
       "imports": [
         "net461",
         "net462",
