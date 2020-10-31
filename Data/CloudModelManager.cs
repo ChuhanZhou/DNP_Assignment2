@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Assignment2.Models.Unit;
@@ -10,17 +11,31 @@ namespace Assignment2.Data
 {
     public class CloudModelManager
     {
-        public string AddUser(User newUser)
+        private HttpClient client;
+        private readonly string uri = "https://localhost:5003/api/user";
+
+        public CloudModelManager()
         {
-            throw new System.NotImplementedException();
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (requestMessage, certificate2, arg3, arg4) => true
+            };
+            client = new HttpClient(httpClientHandler);
+        }
+        public async Task<string> AddUserAsync(User newUser)
+        {
+            string newUserJson = JsonSerializer.Serialize(newUser);
+            HttpContent httpContent = new StringContent(newUserJson,Encoding.UTF8,"application/json");
+            var message = await client.PostAsync(uri,httpContent);
+            string result = await message.Content.ReadAsStringAsync();
+            Console.WriteLine(result);
+            return result;
         }
 
-        public static async Task<bool> LoginAsync(User user)
+        public async Task<bool> LoginAsync(User user)
         {
-            Console.WriteLine(1);
             string userJson = JsonSerializer.Serialize(user);
-            HttpClient client = new HttpClient();
-            string message = await client.GetStringAsync("https://localhost:5003/api/user"+userJson);
+            string message = await client.GetStringAsync("https://localhost:5003/api/user/login?userJson=" + userJson);
             bool result = Convert.ToBoolean(message);
             return result;
         }

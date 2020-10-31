@@ -6,7 +6,7 @@ namespace Assignment2.Data
 {
     public interface IModelManager
     {
-        string AddUser(User newUser);
+        Task<string> AddUserAsync(User newUser);
         Task<bool> LoginAsync(User user);
         UserList GetAllUser();
         string UpdatePassword(User oldUser,User newUser);

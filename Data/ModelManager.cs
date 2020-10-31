@@ -11,9 +11,11 @@ namespace Assignment2.Data
     {
         private ModelPackage modelPackage;
         private readonly string dataFileName;
+        private CloudModelManager cloudModelManager;
 
         public ModelManager()
         {
+            cloudModelManager = new CloudModelManager();
             modelPackage = new ModelPackage();
             dataFileName = "DataFile.json";
             ReadData();
@@ -29,16 +31,16 @@ namespace Assignment2.Data
             DataFileContext.UpdateData(dataFileName,modelPackage);
         }
 
-        public string AddUser(User newUser)
+        public async Task<string> AddUserAsync(User newUser)
         {
-            string result = modelPackage.UserList.AddUser(newUser);
-            UpdateData();
+            string result = await cloudModelManager.AddUserAsync(newUser);
+            //string result = modelPackage.UserList.AddUser(newUser);
             return result;
         }
 
         public async Task<bool> LoginAsync(User user)
         {
-            return await CloudModelManager.LoginAsync(user);
+            return await cloudModelManager.LoginAsync(user);
             //return modelPackage.UserList.CheckPassword(user);
         }
 

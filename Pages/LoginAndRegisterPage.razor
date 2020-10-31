@@ -121,14 +121,14 @@
         }
     }
 
-    private void Register()
+    private async Task Register()
     {
         if (!string.IsNullOrEmpty(newUser.Password)&&!string.IsNullOrWhiteSpace(newUser.UserName)&&!string.IsNullOrEmpty(newUser.UserName))
         {
             if (newUser.Password==confirmPassword)
             {
-                error = ModelManager.AddUser(newUser);
-                if (error == null)
+                error = await ModelManager.AddUserAsync(newUser);
+                if (string.IsNullOrEmpty(error))
                 {
                     MainLayout.Login();
                     UserInformation.SetInfo(newUser.UserName);
