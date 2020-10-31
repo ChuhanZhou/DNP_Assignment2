@@ -106,9 +106,10 @@
         error = null;
     }
 
-    private void Login()
+    private async Task Login()
     {
-        if (ModelManager.Login(newUser))
+        var result = await ModelManager.LoginAsync(newUser);
+        if (result)
         {
             MainLayout.Login();
             UserInformation.SetInfo(newUser.UserName);

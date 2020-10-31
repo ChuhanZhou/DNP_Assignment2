@@ -1,20 +1,28 @@
-﻿
-
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Assignment2.Models.Unit;
 using DNP_Assignment2.Data;
 
 namespace Assignment2.Data
 {
-    public class CloudModelManager : IModelManager
+    public class CloudModelManager
     {
         public string AddUser(User newUser)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool Login(User user)
+        public static async Task<bool> LoginAsync(User user)
         {
-            throw new System.NotImplementedException();
+            Console.WriteLine(1);
+            string userJson = JsonSerializer.Serialize(user);
+            HttpClient client = new HttpClient();
+            string message = await client.GetStringAsync("https://localhost:5003/api/user"+userJson);
+            bool result = Convert.ToBoolean(message);
+            return result;
         }
 
         public UserList GetAllUser()

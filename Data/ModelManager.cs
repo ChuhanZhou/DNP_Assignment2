@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Assignment2.Models.Unit;
 using Assignment2.Persistence;
 using DNP_Assignment2.Data;
@@ -35,9 +36,10 @@ namespace Assignment2.Data
             return result;
         }
 
-        public bool Login(User user)
+        public async Task<bool> LoginAsync(User user)
         {
-            return modelPackage.UserList.CheckPassword(user);
+            return await CloudModelManager.LoginAsync(user);
+            //return modelPackage.UserList.CheckPassword(user);
         }
 
         public UserList GetAllUser()

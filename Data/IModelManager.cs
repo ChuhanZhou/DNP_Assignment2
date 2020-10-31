@@ -1,4 +1,5 @@
-﻿using Assignment2.Models.Unit;
+﻿using System.Threading.Tasks;
+using Assignment2.Models.Unit;
 using DNP_Assignment2.Data;
 
 namespace Assignment2.Data
@@ -6,7 +7,7 @@ namespace Assignment2.Data
     public interface IModelManager
     {
         string AddUser(User newUser);
-        bool Login(User user);
+        Task<bool> LoginAsync(User user);
         UserList GetAllUser();
         string UpdatePassword(User oldUser,User newUser);
         void RemoveUser(User user);
