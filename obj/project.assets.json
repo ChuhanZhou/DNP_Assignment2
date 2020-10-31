@@ -12209,11 +12209,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\DNP_Assignment2.csproj",
-      "projectName": "DNP_Assignment2",
-      "projectPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\DNP_Assignment2.csproj",
+      "projectUniqueName": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\DNP_Assignment2_Client.csproj",
+      "projectName": "DNP_Assignment2_Client",
+      "projectPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\DNP_Assignment2_Client.csproj",
       "packagesPath": "C:\\Users\\Think\\.nuget\\packages\\",
-      "outputPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\obj\\",
+      "outputPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Think\\AppData\\Roaming\\NuGet\\NuGet.Config"

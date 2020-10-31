@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "WC+yoIJBuYJEKFqX+F7+yjX86iV7YFPC+ODNxpu8zdMWn7eJ/N9Ylicxb4HhHjBQoUA36JCt07NpkvnX7HX8Iw==",
+  "dgSpecHash": "T5IbwkaKNCVNrhjQpMjikzCQPffmGuZkcvdai7P1lirMe7MWKuVkZn13fkFB3UbFgedFPuuxaLR1+EfPn81Fdw==",
   "success": true,
-  "projectFilePath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\DNP_Assignment2.csproj",
+  "projectFilePath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\DNP_Assignment2_Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Think\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\Think\\.nuget\\packages\\configcore\\2.0.0\\configcore.2.0.0.nupkg.sha512",

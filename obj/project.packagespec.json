@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\DNP_Assignment2.csproj",
-    "projectName": "DNP_Assignment2",
-    "projectPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\DNP_Assignment2.csproj",
-    "outputPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2\\obj\\",
+    "projectUniqueName": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\DNP_Assignment2_Client.csproj",
+    "projectName": "DNP_Assignment2_Client",
+    "projectPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\DNP_Assignment2_Client.csproj",
+    "outputPath": "D:\\学习资料\\VIA\\(DNP)\\C#\\DNP1\\DNP_Assignment2_Client\\obj\\",
     "projectStyle": "PackageReference",
     "originalTargetFrameworks": [
       "netcoreapp3.1"
