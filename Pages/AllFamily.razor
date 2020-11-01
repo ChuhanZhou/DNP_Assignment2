@@ -223,13 +223,13 @@
             case "Person Id":
                 if (!string.IsNullOrEmpty(searchInfo1))
                 {
-                    if (ModelManager.GetAllAdult().GetAdultById(int.Parse(searchInfo1))!=null)
+                    if ((await ModelManager.GetAllAdultAsync()).GetAdultById(int.Parse(searchInfo1))!=null)
                     {
-                        allFamily = allFamily.GetFamilyListByPerson(ModelManager.GetAllAdult().GetAdultById(int.Parse(searchInfo1)));
+                        allFamily = allFamily.GetFamilyListByPerson((await ModelManager.GetAllAdultAsync()).GetAdultById(int.Parse(searchInfo1)));
                     }
-                    else if(ModelManager.GetAllChild().GetChildById(int.Parse(searchInfo1))!=null)
+                    else if((await ModelManager.GetAllChildAsync()).GetChildById(int.Parse(searchInfo1))!=null)
                     {
-                        allFamily = allFamily.GetFamilyListByPerson(ModelManager.GetAllChild().GetChildById(int.Parse(searchInfo1)));
+                        allFamily = allFamily.GetFamilyListByPerson((await ModelManager.GetAllChildAsync()).GetChildById(int.Parse(searchInfo1)));
                     }
                     else
                     {

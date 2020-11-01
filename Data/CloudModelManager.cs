@@ -9,7 +9,7 @@ using DNP_Assignment2.Data;
 
 namespace Assignment2.Data
 {
-    public class CloudModelManager
+    public class CloudModelManager : IModelManager
     {
         private HttpClient client;
         private readonly string uri = "https://localhost:5003/api/";
@@ -92,32 +92,44 @@ namespace Assignment2.Data
             await client.DeleteAsync(uri + "family?streetName=" + family.StreetName + "&houseNumber=" + family.HouseNumber);
         }
 
-        public string AddAdult(Adult newAdult)
+        public async Task<string> AddAdultAsync(Adult newAdult)
+        {
+            var newAdultJson = JsonSerializer.Serialize(newAdult);
+            HttpContent httpContent = new StringContent(newAdultJson,Encoding.UTF8,"application/json");
+            var message = await client.PostAsync(uri + "person/adult",httpContent);
+            var result = await message.Content.ReadAsStringAsync();
+            return result;
+        }
+
+        public async Task<AdultList> GetAllAdultAsync()
+        {
+            var message = await client.GetStringAsync(uri + "person/adult");
+            var result = JsonSerializer.Deserialize<AdultList>(message);
+            return result;
+        }
+
+        public async Task<string> AddChildAsync(Child newChild)
+        {
+            var newChildJson = JsonSerializer.Serialize(newChild);
+            HttpContent httpContent = new StringContent(newChildJson,Encoding.UTF8,"application/json");
+            var message = await client.PostAsync(uri + "person/child",httpContent);
+            var result = await message.Content.ReadAsStringAsync();
+            return result;
+        }
+
+        public async Task<ChildList> GetAllChildAsync()
+        {
+            var message = await client.GetStringAsync(uri + "person/child");
+            var result = JsonSerializer.Deserialize<ChildList>(message);
+            return result;
+        }
+
+        public async Task<string> UpdatePersonAsync(Person newPerson)
         {
             throw new System.NotImplementedException();
         }
 
-        public AdultList GetAllAdult()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public string AddChild(Child newChild)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public ChildList GetAllChild()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public string UpdatePerson(Person newPerson)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RemovePerson(Person person)
+        public async Task RemovePersonAsync(Person person)
         {
             throw new System.NotImplementedException();
         }

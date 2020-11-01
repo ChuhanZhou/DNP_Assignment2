@@ -15,11 +15,11 @@ namespace Assignment2.Data
         Task<FamilyList> GetAllFamilyAsync();
         Task<string> UpdateFamilyAsync(Family oldFamily, Family newFamily);
         Task RemoveFamilyAsync(Family family);
-        string AddAdult(Adult newAdult);
-        AdultList GetAllAdult();
-        string AddChild(Child newChild);
-        ChildList GetAllChild();
-        string UpdatePerson(Person newPerson);
-        void RemovePerson(Person person);
+        Task<string> AddAdultAsync(Adult newAdult);
+        Task<AdultList> GetAllAdultAsync();
+        Task<string> AddChildAsync(Child newChild);
+        Task<ChildList> GetAllChildAsync();
+        Task<string> UpdatePersonAsync(Person newPerson);
+        Task RemovePersonAsync(Person person);
     }
 }

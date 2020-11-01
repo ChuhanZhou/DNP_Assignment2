@@ -171,10 +171,10 @@
         }
     }
 
-    private void InitShowList()
+    private async Task InitShowList()
     {
-        allAdult = ModelManager.GetAllAdult();
-        allChild = ModelManager.GetAllChild();
+        allAdult = await ModelManager.GetAllAdultAsync();
+        allChild = await ModelManager.GetAllChildAsync();
         showList = new PersonList();
         foreach (var adult in allAdult.adults)
         {
@@ -340,10 +340,10 @@
         
     }
 
-    private void RemovePerson(Person targetPerson)
+    private async Task RemovePerson(Person targetPerson)
     {
-        ModelManager.RemovePerson(targetPerson);
-        InitShowList();
+        await ModelManager.RemovePersonAsync(targetPerson);
+        await InitShowList();
         SearchByKeyWord();
     }
 }

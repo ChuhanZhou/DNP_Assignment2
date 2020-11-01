@@ -24,7 +24,7 @@ namespace Assignment2
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<IModelManager, ModelManager>();
+            services.AddSingleton<IModelManager, CloudModelManager>();
             services.AddSingleton<NavMenu>();
             services.AddSingleton<MainLayout>();
         }

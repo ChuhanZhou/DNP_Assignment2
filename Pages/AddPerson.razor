@@ -268,12 +268,12 @@
         errorForPet = null;
     }
     
-    private void AddNewPerson()
+    private async Task AddNewPerson()
     {
         switch (personType)
         {
             case "Adult":
-                error = ModelManager.AddAdult(new Adult
+                error = await ModelManager.AddAdultAsync(new Adult
                 {
                     Id = newPerson.Id,
                     FirstName = newPerson.FirstName,
@@ -288,7 +288,7 @@
                 });
                 break;
             case "Child":
-                error = ModelManager.AddChild(new Child
+                error = await ModelManager.AddChildAsync(new Child
                 {
                     Id = newPerson.Id,
                     FirstName = newPerson.FirstName,

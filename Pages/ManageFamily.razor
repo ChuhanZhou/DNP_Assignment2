@@ -250,9 +250,9 @@
         oldFamily = family;
     }
     
-    private void AddAdult()
+    private async Task AddAdult()
     {
-        errorForAdult = newFamily.Adults.AddAdult(ModelManager.GetAllAdult().GetAdultById(addAdultId));
+        errorForAdult = newFamily.Adults.AddAdult((await ModelManager.GetAllAdultAsync()).GetAdultById(addAdultId));
     }
 
     private void RemoveAdult(Adult adult)
@@ -261,9 +261,9 @@
         errorForAdult = null;
     }
     
-    private void AddChild()
+    private async Task AddChild()
     {
-        errorForChild = newFamily.Children.AddChild(ModelManager.GetAllChild().GetChildById(addChildId));
+        errorForChild = newFamily.Children.AddChild((await ModelManager.GetAllChildAsync()).GetChildById(addChildId));
     }
     
     private void RemoveChild(Child child)

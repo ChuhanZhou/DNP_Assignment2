@@ -267,9 +267,9 @@
         errorForPet = null;
     }
     
-    private void UpdateOldPerson()
+    private async Task UpdateOldPerson()
     {
-        error = ModelManager.UpdatePerson(newPerson);
+        error = await ModelManager.UpdatePersonAsync(newPerson);
         if (error==null)
         {
             NavigationManager.NavigateTo("AllPerson");
