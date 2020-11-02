@@ -64,14 +64,14 @@ using Microsoft.JSInterop;
 #nullable disable
 #nullable restore
 #line 8 "D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\_Imports.razor"
-using Assignment2;
+using DNP_Assignment2_Client;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 9 "D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\_Imports.razor"
-using Assignment2.Shared;
+using DNP_Assignment2_Client.Shared;
 
 #line default
 #line hidden
