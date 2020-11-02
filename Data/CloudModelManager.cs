@@ -16,11 +16,20 @@ namespace Assignment2.Data
 
         public CloudModelManager()
         {
-            var httpClientHandler = new HttpClientHandler
+            try
             {
-                ServerCertificateCustomValidationCallback = (requestMessage, certificate2, arg3, arg4) => true
-            };
-            client = new HttpClient(httpClientHandler);
+                client = new HttpClient();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                var httpClientHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback = (requestMessage, certificate2, arg3, arg4) => true
+                };
+                client = new HttpClient(httpClientHandler);
+            }
+            
         }
         public async Task<string> AddUserAsync(User newUser)
         {
@@ -126,12 +135,25 @@ namespace Assignment2.Data
 
         public async Task<string> UpdatePersonAsync(Person newPerson)
         {
-            throw new System.NotImplementedException();
+            string newPersonJson;
+            try
+            {
+                newPersonJson = JsonSerializer.Serialize((Adult) newPerson);
+            }
+            catch 
+            {
+                newPersonJson = JsonSerializer.Serialize((Child) newPerson);
+            }
+            newPersonJson = JsonSerializer.Serialize(newPersonJson);
+            HttpContent httpContent = new StringContent(newPersonJson,Encoding.UTF8,"application/json");
+            var message = await client.PatchAsync(uri + "person",httpContent);
+            var result = await message.Content.ReadAsStringAsync();
+            return result;
         }
 
         public async Task RemovePersonAsync(Person person)
         {
-            throw new System.NotImplementedException();
+            await client.DeleteAsync(uri + "person?id=" + person.Id);
         }
     }
 }

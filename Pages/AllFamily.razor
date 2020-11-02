@@ -149,6 +149,7 @@
         if (MainLayout.IsLogin())
         {
             await InitAllFamily();
+            searchKeyWord = KeyWordList[0];
         }
         else
         {
@@ -289,7 +290,7 @@
             {
                 searchInfo2 = "" + int.Parse(searchInfo2);
             }
-            if (int.Parse(searchInfo3)<int.Parse(searchInfo2))
+            else if (int.Parse(searchInfo3)<int.Parse(searchInfo2))
             {
                 searchInfo3 = "" + int.Parse(searchInfo2);
             }

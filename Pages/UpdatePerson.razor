@@ -270,7 +270,7 @@
     private async Task UpdateOldPerson()
     {
         error = await ModelManager.UpdatePersonAsync(newPerson);
-        if (error==null)
+        if (string.IsNullOrEmpty(error))
         {
             NavigationManager.NavigateTo("AllPerson");
         }

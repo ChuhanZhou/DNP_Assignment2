@@ -304,7 +304,7 @@
                 });
                 break;
         }
-        if (error==null)
+        if (string.IsNullOrEmpty(error))
         {
             NavigationManager.NavigateTo("AllPerson");
         }

@@ -163,7 +163,7 @@
             searchKeyWord = KeyWordList[0];
             historyKeyWord = searchKeyWord;
             showList = new PersonList();
-            InitShowList();
+            await InitShowList();
         }
         else
         {
@@ -186,7 +186,7 @@
         }
     }
 
-    private void ChangeKeyWord()
+    private async Task ChangeKeyWord()
     {
         if (historyKeyWord!=searchKeyWord)
         {
@@ -224,15 +224,15 @@
                     searchInfo2 = null;
                     break;
             }
-            SearchByKeyWord();
+            await SearchByKeyWord();
         }
         historyKeyWord = searchKeyWord;
     }
     
-    private void SearchByKeyWord()
+    private async Task SearchByKeyWord()
     {
         error = null;
-        InitShowList();
+        await InitShowList();
         switch (searchKeyWord)
         {
             case "All":
@@ -344,6 +344,6 @@
     {
         await ModelManager.RemovePersonAsync(targetPerson);
         await InitShowList();
-        SearchByKeyWord();
+        await SearchByKeyWord();
     }
 }
