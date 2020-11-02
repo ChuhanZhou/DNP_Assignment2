@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Assignment2.Models.Unit;
-using DNP_Assignment2.Data;
+using DNP_Assignment2_Client.Models.List;
+using DNP_Assignment2_Client.Models.Unit;
 
-namespace Assignment2.Data
+namespace DNP_Assignment2_Client.Data
 {
     public interface IModelManager
     {

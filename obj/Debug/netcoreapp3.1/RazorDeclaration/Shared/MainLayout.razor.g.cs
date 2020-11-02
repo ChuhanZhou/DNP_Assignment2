@@ -5,7 +5,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Assignment2.Shared
+namespace DNP_Assignment2_Client.Shared
 {
     #line hidden
     using System;

@@ -1,6 +1,5 @@
-using Assignment2.Data;
-using Assignment2.Shared;
-using DNP_Assignment2.Data;
+using DNP_Assignment2_Client.Data;
+using DNP_Assignment2_Client.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

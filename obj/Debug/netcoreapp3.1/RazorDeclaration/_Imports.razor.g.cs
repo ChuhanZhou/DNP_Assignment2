@@ -5,7 +5,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace Assignment2
+namespace DNP_Assignment2_Client
 {
     #line hidden
     using System;

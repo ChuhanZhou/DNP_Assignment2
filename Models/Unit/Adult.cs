@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json;
 
-namespace Assignment2.Models.Unit {
+namespace DNP_Assignment2_Client.Models.Unit {
 public class Adult : Person {
     public static readonly List<string> ValidJob = new[]
     {

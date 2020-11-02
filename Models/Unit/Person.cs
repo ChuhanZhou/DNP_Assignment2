@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.Json;
 
-namespace Assignment2.Models.Unit {
+namespace DNP_Assignment2_Client.Models.Unit {
 public class Person {
     
     public static readonly List<string> ValidHairColor = new[]

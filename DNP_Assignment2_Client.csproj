@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>Assignment2</RootNamespace>
+        <RootNamespace>DNP_Assignment2_Client</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

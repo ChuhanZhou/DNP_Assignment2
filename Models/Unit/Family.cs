@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using DNP_Assignment2.Data;
+using DNP_Assignment2_Client.Models.List;
 
-namespace Assignment2.Models.Unit {
+namespace DNP_Assignment2_Client.Models.Unit {
 public class Family {
     
     //public int Id { get; set; }

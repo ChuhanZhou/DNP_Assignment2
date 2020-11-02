@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Assignment2.Models.Unit
+namespace DNP_Assignment2_Client.Models.Unit
 {
     public class User
     {
