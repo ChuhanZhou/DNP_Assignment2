@@ -1,6 +1,5 @@
 D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\bin\Debug\netcoreapp3.1\appsettings.Development.json
 D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\bin\Debug\netcoreapp3.1\appsettings.json
-D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\bin\Debug\netcoreapp3.1\DataFile.json
 D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\bin\Debug\netcoreapp3.1\DNP_Assignment2_Client.exe
 D:\学习资料\VIA\(DNP)\C#\DNP1\DNP_Assignment2_Client\bin\Debug\netcoreapp3.1\DNP_Assignment2_Client.deps.json
