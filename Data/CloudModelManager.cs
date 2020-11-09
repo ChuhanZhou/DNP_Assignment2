@@ -19,6 +19,7 @@ namespace DNP_Assignment2_Client.Data
             try
             {
                 client = new HttpClient();
+                client.GetAsync(uri + "all");
             }
             catch (Exception e)
             {
